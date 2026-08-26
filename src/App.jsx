@@ -6,11 +6,13 @@ import News from './components/News'
 function App() {
 
   return (
-    <>
+    <div className='min-h-screen flex flex-col'>
       <Header />
-      <News />
+      <main  className='flex-1'>
+        <News />
+      </main>
       <Footer />
-    </>
+    </div>
   )
 }
 
