@@ -9,11 +9,11 @@ const Header = () => {
   return (
     <div className='w-full flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-20 py-5 sticky top-0 bg-white z-50'>
         <div className='flex items-center gap-3 sm:gap-4'> 
-            <h1 className="cursor-pointer transition-colors text-gray-800 hover:text-black text-lg sm:text-xl md:text-xl font-bold">
+            <h1 className="cursor-pointer transition-colors text-gray-400 hover:text-gray-600 text-sm sm:text-base font-medium">
                 NextNews
             </h1>
 
-            <h1 className='cursor-pointer transition-colors text-gray-400 hover:text-black text-lg sm:text-xl md:text-xl'>
+            <h1 className='cursor-pointer transition-colors font-medium text-gray-400 hover:text-gray-600 text-sm sm:text-base'>
                 Community
             </h1>
         </div>
@@ -41,11 +41,10 @@ const Header = () => {
                 />
             </button>
 
-            {showCategories && (
-                <Categories
-                    onClose={() => setShowCategories(false)}
-                />
-            )}
+            <Categories
+                isOpen={showCategories}
+                onClose={() => setShowCategories(false)}
+            />
         </div>
     </div>
   )
