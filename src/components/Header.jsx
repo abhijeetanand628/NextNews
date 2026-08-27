@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Menu, Search, UserRound } from "lucide-react";
+import Categories from './Categories';
 
 const Header = () => {
+
+    const [showCategories, setShowCategories] = useState(false);
+
   return (
     <div className='w-full flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-20 py-5 sticky top-0 bg-white z-50'>
         <div className='flex items-center gap-3 sm:gap-4'> 
@@ -32,9 +36,16 @@ const Header = () => {
             <button className='text-gray-600 hover:text-black cursor-pointer'>
                 <Menu 
                     size={20} 
-                    strokeWidth={2}    
+                    strokeWidth={2} 
+                    onClick={() => setShowCategories(true)}   
                 />
             </button>
+
+            {showCategories && (
+                <Categories
+                    onClose={() => setShowCategories(false)}
+                />
+            )}
         </div>
     </div>
   )
