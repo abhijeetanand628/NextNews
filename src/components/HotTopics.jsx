@@ -11,7 +11,6 @@ const HotTopics = () => {
     async function fetchHotTopics() {
     try {
       const response = await fetch(`https://newsapi.org/v2/top-headlines?language=en&apiKey=${API_KEY}`);
-      console.log("Articles:", article);
 
       if(!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
