@@ -11,6 +11,7 @@ const HotTopics = () => {
     async function fetchHotTopics() {
     try {
       const response = await fetch(`https://newsapi.org/v2/top-headlines?language=en&apiKey=${API_KEY}`);
+      console.log("Articles:", article);
 
       if(!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
@@ -21,6 +22,7 @@ const HotTopics = () => {
       // console.log(data.articles);
     } catch (error) {
       console.log("Server error : ", error);
+      alert(error.message);
     }
   }
   fetchHotTopics()
@@ -100,9 +102,10 @@ const HotTopics = () => {
 
           <p className='mt-8 text-sm md:text-base text-gray-700 leading-relaxed'>
             {item.description}
-            <span className='ml-2 underline text-gray-700 cursor-pointer'>
+            <a href={item.url} target='_blank' rel='noopener noreferrer'
+              className='ml-2 underline text-gray-700 cursor-pointer hover:text-black'>
               read more
-            </span>
+            </a>
           </p>
         </div>
       </div>
