@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 const HotTopics = () => {
 
@@ -6,6 +6,10 @@ const HotTopics = () => {
 
   const [article, setArticle] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const timeoutRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const remainingTimeRef = useRef(5000);
 
   useEffect(() => {
     async function fetchHotTopics() {
@@ -27,20 +31,51 @@ const HotTopics = () => {
   fetchHotTopics()
   }, [])
 
+  const startTimer = () => {
+    startTimeRef.current = Date.now();
+    timeoutRef.current = setTimeout(() => {
+      setCurrentIndex(
+        (prev) => (prev + 1) % article.length
+      );
+      remainingTimeRef.current = 5000;
+      startTimer();
+    }, remainingTimeRef.current);
+  }
+
+  // Pause timer
+  const pauseTimer = () => {
+    clearTimeout(timeoutRef.current);
+    const elapsedTime =
+      Date.now() - startTimeRef.current;
+    remainingTimeRef.current =
+      remainingTimeRef.current - elapsedTime;
+  }
+
+  // Mouse enters
+  const handleMouseEnter = () => {
+    pauseTimer();
+  }
+
+  // Mouse leaves
+  const handleMouseLeave = () => {
+    startTimer();
+  }
+
   useEffect(() => {
-    if(article.length === 0)
+    if (article.length === 0)
       return;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % article.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [article]) 
-
-    if (article.length === 0) {
-      return null;
+    remainingTimeRef.current = 5000;
+    startTimer();
+    return () => {
+      clearTimeout(timeoutRef.current);
     }
+  }, [article])
+
+
+  if (article.length === 0) {
+    return null;
+  }
 
 
     const item = article[currentIndex];
@@ -61,7 +96,11 @@ const HotTopics = () => {
         Hot Topics
       </h1>
 
-      <div className='mt-8 grid grid-cols-1 md:grid-cols-[60fr_40fr] gap-6'>
+      <div 
+        className='mt-8 grid grid-cols-1 md:grid-cols-[60fr_40fr] gap-6'
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
 
       {/* LEFT - IMAGE */}
         <div className='relative h-[360px] rounded-xl overflow-hidden'>

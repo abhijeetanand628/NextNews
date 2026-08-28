@@ -1,43 +1,43 @@
 import React, { useEffect, useState } from 'react'
+import Pagination from './Pagination';
 
 const LatestNews = () => {
 
     const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 
     const [article, setArticle] = useState([]);
-    const [category, setCategory] = useState('general')
     const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
+
+    const pageSize = 8
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search)
-        const selectedCategory = params.get('category') || 'general'
-        setCategory(selectedCategory)
-        
-        async function fetchNews() {
-            try {
-                setLoading(true)
-                let url
-                // Gaming is not a NewsAPI category
-                if (selectedCategory === 'gaming') {
-                    url = `https://newsapi.org/v2/everything?q=gaming&language=en&sortBy=publishedAt&apiKey=${API_KEY}`
-                } else {
-                    url = `https://newsapi.org/v2/top-headlines?country=in&category=${selectedCategory}&language=en&apiKey=${API_KEY}`
-                }
-                const response = await fetch(url)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`)
-                }
-                const data = await response.json()
-                setArticle(data.articles || [])
-            } catch (error) {
-                console.log("Server error : ", error)
-                setArticle([])
-            } finally {
-                setLoading(false)
+    async function fetchNews() {
+        try {
+            setLoading(true)
+            const url = `https://newsapi.org/v2/top-headlines?language=en&page=${currentPage}&pageSize=${pageSize}&apiKey=${API_KEY}`
+            console.log("Fetching:", url)
+            const response = await fetch(url)
+            console.log("Status:", response.status)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`)
             }
+            const data = await response.json()
+            console.log("NewsAPI:", data)
+            setArticle(data.articles || [])
+            setTotalPages(
+                Math.ceil(data.totalResults / pageSize)
+            )
+        } catch (error) {
+            console.log("Server error : ", error)
+            setArticle([])
+        } finally {
+            setLoading(false)
         }
-        fetchNews()
-    }, [])
+    }
+    fetchNews()
+}, [currentPage])
 
 
 
@@ -102,6 +102,11 @@ const LatestNews = () => {
                 </a>
             ))}
         </div>
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+        />
 
     </div>
   )

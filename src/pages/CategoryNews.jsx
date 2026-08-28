@@ -38,30 +38,17 @@ const CategoryNews = () => {
     }, [category])
 
 
-    const getTimeAgo = (publishedAt) => {
-
-        const now = new Date()
-        const publishedDate = new Date(publishedAt)
-
-        const difference = now - publishedDate
-
-        const minutes = Math.floor(difference / (1000 * 60))
-        const hours = Math.floor(difference / (1000 * 60 * 60))
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-
-        if (minutes < 1) {
-            return "Just now"
-        }
-
-        if (minutes < 60) {
-            return `${minutes} minute${minutes > 1 ? "s" : ""} ago`
-        }
-
-        if (hours < 24) {
-            return `${hours} hour${hours > 1 ? "s" : ""} ago`
-        }
-        return `${days} day${days > 1 ? "s" : ""} ago`
+    const formatDateTime = (publishedAt) => {
+        const date = new Date(publishedAt)
+        const day = String(date.getDate()).padStart(2, '0')
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const year = date.getFullYear()
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+        return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`
     }
+
     const formattedCategory =
         category.charAt(0).toUpperCase() + category.slice(1)
 
@@ -125,7 +112,7 @@ const CategoryNews = () => {
                                     </p>
                                 )}
                                 <p className='text-xs text-gray-500 mt-5'>
-                                    {getTimeAgo(item.publishedAt)}
+                                    {formatDateTime(item.publishedAt)}
                                     <span className='mx-3'>
                                         •
                                     </span>
