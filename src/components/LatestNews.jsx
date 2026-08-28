@@ -5,25 +5,40 @@ const LatestNews = () => {
     const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 
     const [article, setArticle] = useState([]);
+    const [category, setCategory] = useState('general')
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        async function fetchLatestNews() {
+        const params = new URLSearchParams(window.location.search)
+        const selectedCategory = params.get('category') || 'general'
+        setCategory(selectedCategory)
+        
+        async function fetchNews() {
             try {
-                const response = await fetch(`https://newsapi.org/v2/top-headlines?language=en&apiKey=${API_KEY}`);
-
-                if(!response.ok) {
+                setLoading(true)
+                let url
+                // Gaming is not a NewsAPI category
+                if (selectedCategory === 'gaming') {
+                    url = `https://newsapi.org/v2/everything?q=gaming&language=en&sortBy=publishedAt&apiKey=${API_KEY}`
+                } else {
+                    url = `https://newsapi.org/v2/top-headlines?country=in&category=${selectedCategory}&language=en&apiKey=${API_KEY}`
+                }
+                const response = await fetch(url)
+                if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`)
                 }
-
-                const data = await response.json();
-                setArticle(data.articles);
-                // console.log(data.articles);
+                const data = await response.json()
+                setArticle(data.articles || [])
             } catch (error) {
-                console.log("Server error : ", error);
+                console.log("Server error : ", error)
+                setArticle([])
+            } finally {
+                setLoading(false)
             }
         }
-        fetchLatestNews()
+        fetchNews()
     }, [])
+
 
 
     const getTimeAgo = (publishedAt) => {

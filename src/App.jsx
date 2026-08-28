@@ -1,8 +1,9 @@
 import './App.css'
+import {Routes, Route} from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
-import HotTopics from './components/HotTopics'
-import LatestNews from './components/LatestNews'
+import Home from './pages/Home'
+import CategoryNews from './pages/CategoryNews'
 
 function App() {
 
@@ -10,8 +11,15 @@ function App() {
     <div className='min-h-screen flex flex-col'>
       <Header />
       <main  className='flex-1'>
-        <HotTopics />
-        <LatestNews />
+        <Routes>
+          <Route path='/' element={<Home />} />
+
+          <Route
+            path='/category/:category'
+            element={<CategoryNews />}
+          />
+          
+        </Routes>
       </main>
       <Footer />
     </div>

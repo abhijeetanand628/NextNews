@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, Search, UserRound } from "lucide-react";
 import Categories from './Categories';
+import { Link } from 'react-router-dom'
 
 const Header = () => {
 
@@ -9,9 +10,11 @@ const Header = () => {
   return (
     <div className='w-full flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-20 py-5 sticky top-0 bg-white z-50'>
         <div className='flex items-center gap-3 sm:gap-4'> 
-            <h1 className="cursor-pointer transition-colors text-gray-400 hover:text-gray-600 text-sm sm:text-base font-medium">
+            <Link
+                to='/'
+                className="cursor-pointer transition-colors text-gray-400 hover:text-gray-600 text-sm sm:text-base font-medium">
                 NextNews
-            </h1>
+            </Link>
 
             <h1 className='cursor-pointer transition-colors font-medium text-gray-400 hover:text-gray-600 text-sm sm:text-base'>
                 Community
@@ -33,11 +36,12 @@ const Header = () => {
                 />
             </button>
 
-            <button className='text-gray-600 hover:text-black cursor-pointer'>
+            <button 
+                onClick={() => setShowCategories(true)} 
+                className='text-gray-600 hover:text-black cursor-pointer'>
                 <Menu 
                     size={20} 
-                    strokeWidth={2} 
-                    onClick={() => setShowCategories(true)}   
+                    strokeWidth={2}   
                 />
             </button>
 
