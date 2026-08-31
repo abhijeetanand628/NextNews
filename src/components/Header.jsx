@@ -1,57 +1,71 @@
 import React, { useState } from 'react'
 import { Menu, Search, UserRound } from "lucide-react";
 import Categories from './Categories';
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Header = () => {
 
     const [showCategories, setShowCategories] = useState(false);
 
   return (
-    <div className='w-full flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-20 py-5 sticky top-0 bg-white z-50'>
-        <div className='flex items-center gap-3 sm:gap-4'> 
-            <Link
-                to='/'
-                className="cursor-pointer transition-colors text-gray-400 hover:text-gray-600 text-sm sm:text-base font-medium">
-                NextNews
-            </Link>
+        <>
+            <div className='w-full flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-20 py-5 sticky top-0 bg-white/70 backdrop-blur-xl z-50'>
+                <div className='flex items-center gap-3 sm:gap-4'> 
+                    <NavLink
+                        to='/'
+                        className={({isActive}) => `cursor-pointer transition-colors text-sm sm:text-base ${
+                            isActive
+                                ? 'font-bold text-black text-md md:text-xl'
+                                : 'font-medium text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                        NextNews
+                    </NavLink>
 
-            <h1 className='cursor-pointer transition-colors font-medium text-gray-400 hover:text-gray-600 text-sm sm:text-base'>
-                Community
-            </h1>
-        </div>
+                    <NavLink 
+                        to='/community'
+                        className={({isActive}) => `cursor-pointer transition-colors text-sm sm:text-base ${
+                            isActive
+                                ? 'font-bold text-black text-md md:text-xl'
+                                : 'font-medium text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                        Community
+                    </NavLink>
+                </div>
+                <div className='flex gap-4 sm:gap-6 md:gap-8 items-center'>
+                    <button className='text-gray-600 hover:text-black cursor-pointer'>
+                        <UserRound 
+                            size={20} 
+                            strokeWidth={2}
+                        />
+                    </button>
+                    
+                    <button className='text-gray-600 hover:text-black cursor-pointer'>
+                        <Search 
+                            size={20} 
+                            strokeWidth={2}
+                        />
+                    </button>
 
-        <div className='flex gap-4 sm:gap-6 md:gap-8 items-center'>
-            <button className='text-gray-600 hover:text-black cursor-pointer'>
-                <UserRound 
-                    size={20} 
-                    strokeWidth={2}
-                />
-            </button>
-            
-            <button className='text-gray-600 hover:text-black cursor-pointer'>
-                <Search 
-                    size={20} 
-                    strokeWidth={2}
-                />
-            </button>
-
-            <button 
-                onClick={() => setShowCategories(true)} 
-                className='text-gray-600 hover:text-black cursor-pointer'>
-                <Menu 
-                    size={20} 
-                    strokeWidth={2}   
-                />
-            </button>
-
+                    <button 
+                        onClick={() => setShowCategories(true)} 
+                        className='text-gray-600 hover:text-black cursor-pointer'
+                    >
+                        <Menu 
+                            size={20} 
+                            strokeWidth={2}   
+                        />
+                    </button>
+                </div>
+            </div>
+            {/* Categories is OUTSIDE the glass-effect header */}
             <Categories
                 isOpen={showCategories}
                 onClose={() => setShowCategories(false)}
             />
-        </div>
-    </div>
-  )
+        </>
+    )
 }
 
 export default Header

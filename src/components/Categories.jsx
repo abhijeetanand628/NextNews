@@ -15,7 +15,7 @@ const Categories = ({onClose, isOpen}) => {
     ]
 
   return (
-    <div className={`fixed top-0 right-0 h-full w-full sm:w-70 bg-white/90 backdrop-blur-lg z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+    <div className={`fixed top-0 right-0 h-full w-full sm:w-70 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
     >
