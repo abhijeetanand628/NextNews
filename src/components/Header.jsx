@@ -14,7 +14,8 @@ const Header = () => {
 
     const isNextNewsActive =
         location.pathname === '/' ||
-        location.pathname.startsWith('/category/')
+        location.pathname.startsWith('/category/') ||
+        location.pathname.startsWith('/search')
 
   return (
         <>
@@ -79,7 +80,15 @@ const Header = () => {
                         </form>
                         <button 
                             type='button'
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
+                            onClick={() => {
+                                if (isSearchOpen && searchQuery.trim()) {
+                                    navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`)
+                                    setSearchQuery('')
+                                    setIsSearchOpen(false)
+                                } else {
+                                    setIsSearchOpen(!isSearchOpen)
+                                }
+                            }}
                             className='text-slate-700 hover:text-black cursor-pointer'
                         >
                             <Search 
