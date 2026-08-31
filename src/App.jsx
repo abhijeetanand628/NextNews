@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Home from './pages/Home'
 import CategoryNews from './pages/CategoryNews'
+import SearchNews from './pages/SearchNews'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <main  className='flex-1'>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/search' element={<SearchNews />} />
 
           <Route
             path='/category/:category'
