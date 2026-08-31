@@ -8,27 +8,27 @@ const LatestNews = () => {
     const [article, setArticle] = useState([]);
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
 
     const pageSize = 8
+    const fetchSize = 40
 
     useEffect(() => {
     async function fetchNews() {
         try {
             setLoading(true)
-            const url = `https://newsapi.org/v2/top-headlines?language=en&page=${currentPage}&pageSize=${pageSize}&apiKey=${API_KEY}`
-            console.log("Fetching:", url)
+            const url = `https://newsapi.org/v2/top-headlines?language=en&pageSize=${fetchSize}&apiKey=${API_KEY}`
+            // console.log("Fetching:", url)
             const response = await fetch(url)
-            console.log("Status:", response.status)
+            // console.log("Status:", response.status)
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`)
             }
             const data = await response.json()
-            console.log("NewsAPI:", data)
+            // console.log("totalResults:", data.totalResults)
+            // console.log("articles length:", data.articles.length)
+            // console.log(data.articles)
+            // console.log("NewsAPI:", data)
             setArticle(data.articles || [])
-            setTotalPages(
-                Math.ceil(data.totalResults / pageSize)
-            )
         } catch (error) {
             console.log("Server error : ", error)
             setArticle([])
@@ -40,6 +40,12 @@ const LatestNews = () => {
 }, [currentPage])
 
 
+    // PAGINATION
+
+    const totalPages = Math.ceil(article.length / pageSize)
+    const startIndex = (currentPage - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const currentArticles = article.slice(startIndex, endIndex)
 
     const getTimeAgo = (publishedAt) => {
 
@@ -74,39 +80,78 @@ const LatestNews = () => {
             Latest News
         </h1>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-6'>
-            {article.map((item) => (
-                <a 
-                    key={item.url}
-                    href={item.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='bg-white rounded-xl overflow-hidden shadow-sm block duration-300 hover:scale-110 hover:shadow-md'
-                >
-                    <img 
-                        className='w-full h-40 object-cover'
-                        src={item.urlToImage}
-                        alt={item.title}
-                    />
-                    <div className='p-4'>
-                        <h2 className='font-bold text-lg leading-7 line-clamp-3'>
-                            {item.title}
-                        </h2>
+        {loading && (
 
-                        <p className='text-xs text-gray-500 mt-4'>
-                            {getTimeAgo(item.publishedAt)}
-                            <span className='mx-3'>•</span>
-                            {item.source.name}
-                        </p>
-                    </div>
-                </a>
-            ))}
-        </div>
-        <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-        />
+                <p className='mt-6 text-gray-500'>
+                    Loading latest news...
+                </p>
+
+            )}
+
+
+            {/* ARTICLES */}
+
+            {!loading && (
+
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-6'>
+
+                    {currentArticles.map((item) => (
+
+                        <a
+                            key={item.url}
+                            href={item.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='bg-white rounded-xl overflow-hidden shadow-sm block duration-300 hover:scale-105 hover:shadow-md'
+                        >
+
+                            <img
+                                className='w-full h-40 object-cover'
+                                src={item.urlToImage}
+                                alt={item.title}
+                            />
+
+                            <div className='p-4'>
+
+                                <h2 className='font-bold text-lg leading-7 line-clamp-3'>
+                                    {item.title}
+                                </h2>
+
+                                <p className='text-xs text-gray-500 mt-4'>
+
+                                    {getTimeAgo(item.publishedAt)}
+
+                                    <span className='mx-3'>
+                                        •
+                                    </span>
+
+                                    {item.source?.name}
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+                    ))}
+
+                </div>
+
+            )}
+
+
+            {/* PAGINATION */}
+
+            {!loading && totalPages > 1 && (
+
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+
+            )}
+
 
     </div>
   )

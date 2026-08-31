@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import Pagination from '../components/Pagination'
 
 const CategoryNews = () => {
 
@@ -9,8 +10,13 @@ const CategoryNews = () => {
 
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const pageSize = 6
+    const fetchSize = 30
 
     useEffect(() => {
+        setCurrentPage(1)
         async function fetchCategoryNews() {
             try {
                 setLoading(true)
@@ -22,6 +28,7 @@ const CategoryNews = () => {
                     url = `https://newsapi.org/v2/top-headlines?category=${category}&language=en&apiKey=${API_KEY}`
                 }
                 const response = await fetch(url)
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`)
                 }
@@ -36,6 +43,14 @@ const CategoryNews = () => {
         }
         fetchCategoryNews()
     }, [category])
+
+    // Pagination calculation
+    const totalPages = Math.ceil(articles.length / pageSize)
+
+    const startIndex = (currentPage - 1) * pageSize
+    const endIndex = startIndex + pageSize
+
+    const currentArticles = articles.slice(startIndex, endIndex)
 
 
     const formatDateTime = (publishedAt) => {
@@ -87,7 +102,7 @@ const CategoryNews = () => {
             {/* ARTICLES */}
             {!loading && (
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-8'>
-                    {articles.map((item) => (
+                    {currentArticles.map((item) => (
                         <a
                             key={item.url}
                             href={item.url}
@@ -123,6 +138,16 @@ const CategoryNews = () => {
                     ))}
                 </div>
             )}
+
+            {/* PAGINATION */}
+            {!loading && articles.length > 0 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+            )}
+
             {/* NO ARTICLES */}
             {!loading && articles.length === 0 && (
                 <p className='mt-8 text-gray-500'>
