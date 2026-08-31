@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import { Menu, Search, UserRound } from "lucide-react";
 import Categories from './Categories';
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation  } from 'react-router-dom'
 
 const Header = () => {
 
     const [showCategories, setShowCategories] = useState(false);
+
+    const location = useLocation()
+
+    const isNextNewsActive =
+        location.pathname === '/' ||
+        location.pathname.startsWith('/category/')
 
   return (
         <>
@@ -13,8 +19,8 @@ const Header = () => {
                 <div className='flex items-center gap-3 sm:gap-4'> 
                     <NavLink
                         to='/'
-                        className={({isActive}) => `cursor-pointer transition-colors text-sm sm:text-base ${
-                            isActive
+                        className={`cursor-pointer transition-colors text-sm sm:text-base ${
+                            isNextNewsActive
                                 ? 'font-bold text-black text-md md:text-xl'
                                 : 'font-medium text-gray-400 hover:text-gray-600'
                         }`}
