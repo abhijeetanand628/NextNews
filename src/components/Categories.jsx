@@ -15,10 +15,17 @@ const Categories = ({onClose, isOpen}) => {
     ]
 
   return (
-    <div className={`fixed top-0 right-0 h-full w-full sm:w-70 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+    <>
+        {isOpen && (
+            <div 
+                className='fixed inset-0 bg-black/20 z-40' 
+                onClick={onClose}
+            ></div>
+        )}
+        <div className={`fixed top-0 right-0 h-full w-full sm:w-70 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-    >
+        >
         <div className='flex items-center justify-between px-4 py-4 border-b border-gray-700'>
             <h1 className='font-bold text-lg'>
                 Categories
@@ -49,6 +56,7 @@ const Categories = ({onClose, isOpen}) => {
             })}
         </div>
     </div>
+    </>
   )
 }
 

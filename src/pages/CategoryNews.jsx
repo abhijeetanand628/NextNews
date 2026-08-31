@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 
 const CategoryNews = () => {
@@ -11,6 +11,11 @@ const CategoryNews = () => {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, [currentPage])
 
     const pageSize = 6
     const fetchSize = 30
@@ -76,7 +81,16 @@ const CategoryNews = () => {
                 </h1>
                 <div className='flex gap-3'>
                     <button
-                        onClick={() => window.history.back()}
+                        onClick={() => {
+                            if (currentPage > 1) {
+                                setCurrentPage(prev => prev - 1)
+                            } else {
+                                navigate(-1)
+                                setTimeout(() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                                }, 100)
+                            }
+                        }}
                         className='px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base md:px-5 md:py-3 md:text-base bg-gray-100 text-gray-700 rounded-xl shadow-sm cursor-pointer hover:bg-gray-200 hover:shadow-md transition-all font-medium'
                     >
                         ← Back
@@ -84,6 +98,11 @@ const CategoryNews = () => {
 
                     <Link
                         to='/'
+                        onClick={() => {
+                            setTimeout(() => {
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }, 100)
+                        }}
                         className='px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base md:px-5 md:py-3 md:text-base bg-blue-500 text-white rounded-xl shadow-sm hover:bg-blue-700 hover:shadow-md transition-all font-medium'
                     >
                         Home

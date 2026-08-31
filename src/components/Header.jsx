@@ -19,6 +19,9 @@ const Header = () => {
                 <div className='flex items-center gap-3 sm:gap-4'> 
                     <NavLink
                         to='/'
+                        onClick={() => {
+                            window.scrollTo({top: 0, behavior: 'smooth'});
+                        }}
                         className={`cursor-pointer transition-colors text-sm sm:text-base ${
                             isNextNewsActive
                                 ? 'font-bold text-black text-md md:text-xl'
@@ -30,6 +33,9 @@ const Header = () => {
 
                     <NavLink 
                         to='/community'
+                        onClick={() => {
+                            window.scrollTo({top: 0, behavior: 'smooth'});
+                        }}
                         className={({isActive}) => `cursor-pointer transition-colors text-sm sm:text-base ${
                             isActive
                                 ? 'font-bold text-black text-md md:text-xl'

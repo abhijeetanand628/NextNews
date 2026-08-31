@@ -13,6 +13,7 @@ const LatestNews = () => {
     const fetchSize = 40
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     async function fetchNews() {
         try {
             setLoading(true)
