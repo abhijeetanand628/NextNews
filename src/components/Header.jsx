@@ -24,6 +24,7 @@ const Header = () => {
                     <NavLink
                         to='/'
                         onClick={() => {
+                            setShowCategories(false);
                             window.scrollTo({top: 0, behavior: 'smooth'});
                         }}
                         className={`cursor-pointer transition-colors text-sm sm:text-base ${
@@ -38,6 +39,7 @@ const Header = () => {
                     <NavLink 
                         to='/community'
                         onClick={() => {
+                            setShowCategories(false);
                             window.scrollTo({top: 0, behavior: 'smooth'});
                         }}
                         className={({isActive}) => `cursor-pointer transition-colors text-sm sm:text-base ${

@@ -1,9 +1,13 @@
 import { X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Categories = ({onClose, isOpen}) => {
 
-    const categories = [
+    const location = useLocation();
+    const isCategoryPage = location.pathname.startsWith('/category/');
+    const currentCategoryFromUrl = isCategoryPage ? location.pathname.split('/')[2].toLowerCase() : null;
+
+    const allCategories = [
         "Technology",
         "General",
         "Gaming",
@@ -12,6 +16,11 @@ const Categories = ({onClose, isOpen}) => {
         "Sports",
         "Entertainment"
     ]
+
+    const activeCategory = allCategories.find(c => c.toLowerCase() === currentCategoryFromUrl);
+    const displayedCategories = activeCategory 
+        ? allCategories.filter(c => c !== activeCategory)
+        : allCategories;
 
   return (
     <>
@@ -40,7 +49,26 @@ const Categories = ({onClose, isOpen}) => {
 
          <div className='flex flex-col px-4 py-6 gap-3'>
 
-            {categories.map((category) => {
+            {activeCategory && (
+                <>
+                    <Link
+                        to={`/category/${activeCategory.toLowerCase()}`}
+                        onClick={onClose}
+                        className='text-left text-md py-2 px-2 text-black font-bold underline rounded hover:bg-gray-100 cursor-pointer'
+                    >
+                        {activeCategory}
+                    </Link>
+                    <Link
+                        to='/'
+                        onClick={onClose}
+                        className='text-left text-md py-2 px-2 text-gray-700 rounded hover:text-black hover:bg-gray-100 cursor-pointer'
+                    >
+                        Home
+                    </Link>
+                </>
+            )}
+
+            {displayedCategories.map((category) => {
                 const categoryValue = category.toLowerCase()
                 return (
                     <Link
