@@ -74,7 +74,27 @@ const HotTopics = () => {
 
 
   if (article.length === 0) {
-    return null;
+    return (
+      <div className='w-full px-4 sm:px-8 md:px-16 lg:px-24 py-4 sm:py-6 md:py-8'>
+        <h1 className='font-bold text-4xl'>
+          Hot Topics
+        </h1>
+
+        <div className='mt-8 grid grid-cols-1 md:grid-cols-[60fr_40fr] gap-6 animate-pulse'>
+          {/* LEFT - IMAGE SKELETON */}
+          <div className='h-[360px] bg-gray-200 rounded-xl'></div>
+
+          {/* RIGHT - DESCRIPTION SKELETON */}
+          <div className='flex flex-col justify-center space-y-4'>
+            <div className='h-8 bg-gray-200 rounded w-full'></div>
+            <div className='h-8 bg-gray-200 rounded w-3/4'></div>
+            <div className='h-4 bg-gray-200 rounded w-full mt-8'></div>
+            <div className='h-4 bg-gray-200 rounded w-5/6'></div>
+            <div className='h-4 bg-gray-200 rounded w-4/6'></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
 

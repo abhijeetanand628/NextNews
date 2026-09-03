@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Pagination from './Pagination';
+import NewsCardSkeleton from './NewsCardSkeleton';
 
 const LatestNews = () => {
 
@@ -73,10 +74,11 @@ const LatestNews = () => {
         </h1>
 
         {loading && (
-                <p className='mt-6 text-gray-500'>
-                    Loading latest news...
-                </p>
-
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-6'>
+                    {[...Array(8)].map((_, index) => (
+                        <NewsCardSkeleton key={index} />
+                    ))}
+                </div>
             )}
 
             {/* ARTICLES */}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Pagination from '../components/Pagination'
+import NewsCardSkeleton from '../components/NewsCardSkeleton'
 
 const CategoryNews = () => {
 
@@ -111,9 +112,11 @@ const CategoryNews = () => {
             </div>
             {/* LOADING */}
             {loading && (
-                <p className='mt-8 text-gray-500'>
-                    Loading {formattedCategory.toLowerCase()} news...
-                </p>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-8'>
+                    {[...Array(6)].map((_, index) => (
+                        <NewsCardSkeleton key={index} />
+                    ))}
+                </div>
             )}
             {/* ARTICLES */}
             {!loading && (
