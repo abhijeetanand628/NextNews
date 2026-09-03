@@ -1,4 +1,3 @@
-import React from 'react'
 import HotTopics from '../components/HotTopics'
 import LatestNews from '../components/LatestNews'
 

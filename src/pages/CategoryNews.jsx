@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 
@@ -18,7 +18,6 @@ const CategoryNews = () => {
     }, [currentPage])
 
     const pageSize = 6
-    const fetchSize = 30
 
     useEffect(() => {
         setCurrentPage(1)
@@ -112,11 +111,9 @@ const CategoryNews = () => {
             </div>
             {/* LOADING */}
             {loading && (
-
                 <p className='mt-8 text-gray-500'>
                     Loading {formattedCategory.toLowerCase()} news...
                 </p>
-
             )}
             {/* ARTICLES */}
             {!loading && (

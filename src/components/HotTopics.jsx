@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const HotTopics = () => {
 
@@ -78,16 +78,16 @@ const HotTopics = () => {
   }
 
 
-    const item = article[currentIndex];
+  const item = article[currentIndex];
 
-    const publishedDate = new Date(item.publishedAt);
-    const now = new Date();
-    const difference = now - publishedDate;
-    const daysAgo = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const publishedDate = new Date(item.publishedAt);
+  const now = new Date();
+  const difference = now - publishedDate;
+  const daysAgo = Math.floor(difference / (1000 * 60 * 60 * 24));
 
-    const timeAgo = daysAgo === 0
-      ? "Today"
-      : `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
+  const timeAgo = daysAgo === 0
+    ? "Today"
+    : `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
 
 
   return (

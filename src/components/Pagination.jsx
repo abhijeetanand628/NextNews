@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
     if (totalPages <= 1) {
@@ -21,12 +19,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         pages.push(i)
     }
 
-
     return (
         <div className='flex justify-center items-center gap-4 mt-12'>
 
             {/* PREV */}
-
             <button
                 disabled={currentPage === 1}
                 onClick={() => onPageChange(currentPage - 1)}
@@ -40,11 +36,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 Prev
             </button>
 
-
             {/* PAGE NUMBERS */}
-
             {pages.map((page) => (
-
                 <button
                     key={page}
                     onClick={() => onPageChange(page)}
@@ -60,9 +53,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
             ))}
 
-
             {/* NEXT */}
-
             <button
                 disabled={currentPage === totalPages}
                 onClick={() => onPageChange(currentPage + 1)}
@@ -75,7 +66,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             >
                 Next
             </button>
-
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Menu, Search, UserRound } from "lucide-react";
 import Categories from './Categories';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
@@ -109,7 +109,7 @@ const Header = () => {
                     </button>
                 </div>
             </div>
-            {/* Categories is OUTSIDE the glass-effect header */}
+
             <Categories
                 isOpen={showCategories}
                 onClose={() => setShowCategories(false)}

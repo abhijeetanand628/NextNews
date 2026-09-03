@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 
@@ -16,14 +16,13 @@ const SearchNews = () => {
 
     useEffect(() => {
         setCurrentPage(1)
-    }, [location.key])
+    }, [query])
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [currentPage])
 
     const pageSize = 6
-    const fetchSize = 30
 
     useEffect(() => {
         setCurrentPage(1)
@@ -116,11 +115,9 @@ const SearchNews = () => {
 
             {/* LOADING */}
             {loading && (
-
                 <p className='mt-4 text-gray-500'>
                     Searching news...
                 </p>
-
             )}
             {/* ARTICLES */}
             {!loading && (
